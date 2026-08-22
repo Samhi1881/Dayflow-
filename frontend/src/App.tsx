@@ -1,12 +1,15 @@
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { AppLayout } from './layouts/AppLayout'
 import { AuthPage } from './pages/AuthPage'
-import { PlaceholderPage } from './pages/PlaceholderPage'
 import { ProtectedRoute } from './routes/ProtectedRoute'
 import { EmployeeDashboard } from './pages/EmployeeDashboard'
 import { ProfilePage } from './pages/ProfilePage'
 import { AttendancePage } from './pages/AttendancePage'
 import { LeavePage } from './pages/LeavePage'
+import { PayrollPage } from './pages/PayrollPage'
+import { AdminEmployeesPage } from './pages/AdminEmployeesPage'
+import { AdminLeavePage } from './pages/AdminLeavePage'
+import { AdminDashboardPage } from './pages/AdminDashboardPage'
 import './App.css'
 
 function App() {
@@ -23,11 +26,11 @@ function App() {
           <Route path="/profile" element={<ProfilePage />} />
           <Route path="/attendance" element={<AttendancePage />} />
           <Route path="/leave" element={<LeavePage />} />
-          <Route path="/payroll" element={<PlaceholderPage title="Payroll" eyebrow="Compensation" description="Your payroll information will appear here." />} />
+          <Route path="/payroll" element={<PayrollPage />} />
           <Route element={<ProtectedRoute role="admin" />}>
-            <Route path="/admin/dashboard" element={<PlaceholderPage title="Admin Dashboard" eyebrow="Administration" description="Monitor your people operations from one place." />} />
-            <Route path="/admin/leave" element={<PlaceholderPage title="Leave Approvals" eyebrow="Administration" description="Pending leave requests will appear here for review." />} />
-            <Route path="/employees" element={<PlaceholderPage title="Employees" eyebrow="People directory" description="Your employee directory will appear here." />} />
+            <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+            <Route path="/admin/leave" element={<AdminLeavePage />} />
+            <Route path="/employees" element={<AdminEmployeesPage />} />
           </Route>
         </Route></Route>
       </Routes>
