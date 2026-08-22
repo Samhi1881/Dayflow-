@@ -3,6 +3,10 @@ import { AppLayout } from './layouts/AppLayout'
 import { AuthPage } from './pages/AuthPage'
 import { PlaceholderPage } from './pages/PlaceholderPage'
 import { ProtectedRoute } from './routes/ProtectedRoute'
+import { EmployeeDashboard } from './pages/EmployeeDashboard'
+import { ProfilePage } from './pages/ProfilePage'
+import { AttendancePage } from './pages/AttendancePage'
+import { LeavePage } from './pages/LeavePage'
 import './App.css'
 
 function App() {
@@ -15,10 +19,10 @@ function App() {
           <Route path="/" element={<Navigate to="/employee/dashboard" replace />} />
           <Route path="/dashboard" element={<Navigate to="/employee/dashboard" replace />} />
           <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
-          <Route path="/employee/dashboard" element={<PlaceholderPage title="Employee Dashboard" eyebrow="My workspace" description="Your personal HR overview will appear here." />} />
-          <Route path="/profile" element={<PlaceholderPage title="Profile" eyebrow="Personal details" description="Your profile and employment details will appear here." />} />
-          <Route path="/attendance" element={<PlaceholderPage title="Attendance" eyebrow="Time & presence" description="Daily and weekly attendance records will appear here." />} />
-          <Route path="/leave" element={<PlaceholderPage title="Leave" eyebrow="Time away" description="Submit and track your leave requests here." />} />
+          <Route path="/employee/dashboard" element={<EmployeeDashboard />} />
+          <Route path="/profile" element={<ProfilePage />} />
+          <Route path="/attendance" element={<AttendancePage />} />
+          <Route path="/leave" element={<LeavePage />} />
           <Route path="/payroll" element={<PlaceholderPage title="Payroll" eyebrow="Compensation" description="Your payroll information will appear here." />} />
           <Route element={<ProtectedRoute role="admin" />}>
             <Route path="/admin/dashboard" element={<PlaceholderPage title="Admin Dashboard" eyebrow="Administration" description="Monitor your people operations from one place." />} />

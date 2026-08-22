@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
 @import 'tailwindcss';
 
-:root { --ink: #17232d; --muted: #687581; --line: #dfe6e5; --paper: #f5f7f6; --surface: #ffffff; --teal: #087f79; --teal-dark: #075f5b; --coral: #e47762; font-family: 'DM Sans', sans-serif; color: var(--ink); background: var(--paper); font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
+:root { --ink: #17233c; --muted: #667085; --line: #e5e7ef; --paper: #f6f7fb; --surface: #ffffff; --teal: #4f46e5; --teal-dark: #3730a3; --coral: #e47762; --success: #16835b; --warning: #b7791f; --danger: #c2413b; font-family: 'DM Sans', sans-serif; color: var(--ink); background: var(--paper); font-synthesis: none; text-rendering: optimizeLegibility; -webkit-font-smoothing: antialiased; }
 * { box-sizing: border-box; }
 body { margin: 0; min-width: 320px; }
 a { color: inherit; text-decoration: none; }
