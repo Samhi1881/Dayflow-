@@ -3,6 +3,20 @@ node_modules/
 .env.*
 !.env.example
 dist/
+build/
 coverage/
 logs/
 *.log
+.DS_Store
+Thumbs.db
+<<<<<<< HEAD
+coverage/
+logs/
+*.log
+=======
+build/
+coverage/
+*.log
+.DS_Store
+Thumbs.db
+>>>>>>> e7edd1a (chore: initialize Dayflow repository)
