@@ -14,11 +14,13 @@ export function apiErrorMessage(error: unknown, fallback = 'Something went wrong
 export async function getProfile() { return (await api.get<{ data: { profile: Profile } }>('/profile/me')).data.data.profile }
 export async function updateProfile(payload: Partial<Profile>) { return (await api.put<{ data: { profile: Profile } }>('/profile/me', payload)).data.data.profile }
 export async function getAttendance(from?: string, to?: string) { return (await api.get<{ data: { attendance: AttendanceRecord[] } }>('/attendance/me', { params: { from, to } })).data.data.attendance }
+export async function getAdminAttendance(from?: string, to?: string) { return (await api.get<{ data: { attendance: AttendanceRecord[] } }>('/admin/attendance', { params: { from, to } })).data.data.attendance }
 export async function checkIn() { return (await api.post<{ data: { attendance: AttendanceRecord } }>('/attendance/checkin')).data.data.attendance }
 export async function checkOut() { return (await api.post<{ data: { attendance: AttendanceRecord } }>('/attendance/checkout')).data.data.attendance }
 export async function getLeave(status?: string) { return (await api.get<{ data: { leave: LeaveRequest[] } }>('/leave/me', { params: status ? { status } : {} })).data.data.leave }
 export async function createLeave(payload: { type: string; startDate: string; endDate: string; reason: string }) { return (await api.post<{ data: { leave: LeaveRequest } }>('/leave', payload)).data.data.leave }
 export async function getSalary() { return (await api.get<{ data: { payroll: Salary } }>('/payroll/me')).data.data.payroll }
 export async function getAdminEmployees() { return (await api.get<{ data: { payroll: Salary[] } }>('/admin/payroll')).data.data.payroll }
+export async function updateSalary(userId: number, salary: number) { return (await api.put<{ data: { payroll: Salary } }>(`/admin/payroll/${userId}`, { salary })).data.data.payroll }
 export async function getAdminLeave(status?: string) { return (await api.get<{ data: { leave: LeaveRequest[] } }>('/admin/leave', { params: status ? { status } : {} })).data.data.leave }
 export async function decideLeave(id: number, decision: 'approve' | 'reject', comment?: string) { return (await api.patch<{ data: { leave: LeaveRequest } }>(`/admin/leave/${id}/${decision}`, { comment })).data.data.leave }

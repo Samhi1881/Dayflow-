@@ -10,6 +10,7 @@ import { PayrollPage } from './pages/PayrollPage'
 import { AdminEmployeesPage } from './pages/AdminEmployeesPage'
 import { AdminLeavePage } from './pages/AdminLeavePage'
 import { AdminDashboardPage } from './pages/AdminDashboardPage'
+import { AdminAttendancePage } from './pages/AdminAttendancePage'
 import './App.css'
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
           <Route path="/payroll" element={<PayrollPage />} />
           <Route element={<ProtectedRoute role="admin" />}>
             <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+            <Route path="/admin/attendance" element={<AdminAttendancePage />} />
             <Route path="/admin/leave" element={<AdminLeavePage />} />
             <Route path="/employees" element={<AdminEmployeesPage />} />
           </Route>
