@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const { UniqueConstraintError } = require('sequelize');
-const { User } = require('../models');
+const { sequelize, User, EmployeeProfile } = require('../models');
 
 const passwordMinimumLength = 8;
 
@@ -43,8 +43,11 @@ module.exports = {
   async register(payload) {
     const { name, email, password } = validateCredentials(payload, true);
     try {
-      const user = await User.create({ name, email, passwordHash: await bcrypt.hash(password, 12), role: 'employee' });
-      return publicUser(user);
+      return await sequelize.transaction(async (transaction) => {
+        const user = await User.create({ name, email, passwordHash: await bcrypt.hash(password, 12), role: 'employee' }, { transaction });
+        await EmployeeProfile.create({ userId: user.id }, { transaction });
+        return publicUser(user);
+      });
     } catch (error) {
       if (error instanceof UniqueConstraintError) throw new AuthError(409, 'EMAIL_EXISTS', 'Email is already registered');
       throw error;

@@ -2,6 +2,8 @@ process.env.JWT_SECRET = 'test-secret';
 
 jest.mock('../models', () => ({
   User: { create: jest.fn(), findOne: jest.fn(), findByPk: jest.fn() },
+  EmployeeProfile: { create: jest.fn() },
+  sequelize: { transaction: jest.fn(async (callback) => callback({})) },
 }));
 
 const bcrypt = require('bcryptjs');
@@ -9,7 +11,7 @@ const jwt = require('jsonwebtoken');
 const request = require('supertest');
 const { UniqueConstraintError } = require('sequelize');
 const app = require('../server');
-const { User } = require('../models');
+const { User, EmployeeProfile } = require('../models');
 
 const storedUser = (overrides = {}) => ({ id: 7, name: 'Aisha Khan', email: 'aisha@example.com', role: 'employee', passwordHash: bcrypt.hashSync('correct-password', 4), ...overrides });
 const bearer = (claims = {}) => jwt.sign({ id: 7, role: 'employee', ...claims }, process.env.JWT_SECRET);
@@ -21,7 +23,8 @@ describe('authentication API', () => {
     User.create.mockImplementation(async (attributes) => ({ id: 7, ...attributes }));
     const response = await request(app).post('/api/v1/auth/register').send({ name: '  Aisha Khan ', email: ' AISHA@EXAMPLE.COM ', password: 'correct-password' });
     expect(response.status).toBe(201);
-    expect(User.create).toHaveBeenCalledWith(expect.objectContaining({ name: 'Aisha Khan', email: 'aisha@example.com', role: 'employee', passwordHash: expect.any(String) }));
+    expect(User.create).toHaveBeenCalledWith(expect.objectContaining({ name: 'Aisha Khan', email: 'aisha@example.com', role: 'employee', passwordHash: expect.any(String) }), expect.objectContaining({ transaction: expect.any(Object) }));
+    expect(EmployeeProfile.create).toHaveBeenCalledWith({ userId: 7 }, expect.objectContaining({ transaction: expect.any(Object) }));
     expect(response.body.user).toEqual(expect.objectContaining({ id: 7, role: 'employee' }));
     expect(JSON.stringify(response.body)).not.toContain('passwordHash');
   });
