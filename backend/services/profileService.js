@@ -11,13 +11,20 @@ class ProfileError extends Error {
 }
 
 function parseId(value) {
-  if (!/^\d+$/.test(String(value)) || Number(value) < 1) throw new ProfileError(400, 'INVALID_ID', 'Employee ID must be a positive integer');
-  return Number(value);
+  const id = Number(value);
+  if (!/^\d+$/.test(String(value)) || !Number.isSafeInteger(id) || id < 1) throw new ProfileError(400, 'INVALID_ID', 'Employee ID must be a positive integer');
+  return id;
 }
 
 function splitName(name) {
   const parts = String(name || '').trim().split(/\s+/).filter(Boolean);
   return { firstName: parts[0] || '', lastName: parts.slice(1).join(' ') };
+}
+
+function validDate(value) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const date = new Date(`${value}T00:00:00Z`);
+  return date.toISOString().slice(0, 10) === value;
 }
 
 function serialize(user, profile, includeSalary = false) {
@@ -49,7 +56,7 @@ function validate(payload, role) {
   if (payload.email !== undefined && (typeof payload.email !== 'string' || !/^\S+@\S+\.\S+$/.test(payload.email))) fields.email = 'Must be a valid email';
   if (payload.role !== undefined && !['admin', 'employee'].includes(payload.role)) fields.role = 'Must be admin or employee';
   if (payload.salary !== undefined && (Number.isNaN(Number(payload.salary)) || Number(payload.salary) < 0)) fields.salary = 'Must be a non-negative number';
-  if (payload.dateJoined !== undefined && payload.dateJoined !== null && (typeof payload.dateJoined !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(payload.dateJoined))) fields.dateJoined = 'Must be an ISO date';
+  if (payload.dateJoined !== undefined && payload.dateJoined !== null && !validDate(payload.dateJoined)) fields.dateJoined = 'Must be an ISO date';
   if (Object.keys(fields).length) throw new ProfileError(400, 'INVALID_INPUT', 'Request contains invalid fields', fields);
 }
 

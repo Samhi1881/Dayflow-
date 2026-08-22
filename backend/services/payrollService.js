@@ -12,8 +12,9 @@ class PayrollError extends Error {
 }
 
 function parseId(value) {
-  if (!/^\d+$/.test(String(value)) || Number(value) < 1) throw new PayrollError(400, 'INVALID_EMPLOYEE_ID', 'Employee ID must be a positive integer');
-  return Number(value);
+  const id = Number(value);
+  if (!/^\d+$/.test(String(value)) || !Number.isSafeInteger(id) || id < 1) throw new PayrollError(400, 'INVALID_EMPLOYEE_ID', 'Employee ID must be a positive integer');
+  return id;
 }
 
 function parseSalary(payload) {

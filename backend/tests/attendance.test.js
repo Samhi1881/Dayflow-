@@ -37,7 +37,7 @@ describe('attendance API', () => {
   test('rejects checkout before check-in and duplicate checkout', async () => {
     User.findByPk.mockResolvedValue(employee);
     Attendance.findOne.mockResolvedValueOnce(null).mockResolvedValueOnce(record({ checkOut: new Date() }));
-    expect((await request(app).post('/api/v1/attendance/checkout').set('Authorization', `Bearer ${token()}`)).status).toBe(409);
+    expect((await request(app).post('/api/v1/attendance/checkout').set('Authorization', `Bearer ${token()}`)).status).toBe(404);
     const duplicate = await request(app).post('/api/v1/attendance/checkout').set('Authorization', `Bearer ${token()}`);
     expect(duplicate.status).toBe(409);
     expect(duplicate.body.error.code).toBe('DUPLICATE_CHECK_OUT');

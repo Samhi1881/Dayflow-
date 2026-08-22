@@ -83,7 +83,7 @@ module.exports = {
   async checkOut(userId) {
     await ensureEmployee(userId);
     const record = await Attendance.findOne({ where: { userId, date: today() } });
-    if (!record) throw new AttendanceError(409, 'CHECK_IN_REQUIRED', 'Employee must check in before checking out');
+    if (!record) throw new AttendanceError(404, 'CHECK_IN_REQUIRED', 'Employee must check in before checking out');
     if (record.checkOut) throw new AttendanceError(409, 'DUPLICATE_CHECK_OUT', 'Employee has already checked out today');
     record.checkOut = new Date();
     await record.save();
@@ -102,7 +102,7 @@ module.exports = {
     const pagination = parsePagination(query);
     const where = whereForDates(filters);
     if (query.userId !== undefined) {
-      if (!/^\d+$/.test(query.userId) || Number(query.userId) < 1) throw new AttendanceError(400, 'INVALID_EMPLOYEE_ID', 'userId must be a positive integer');
+      if (!/^\d+$/.test(query.userId) || !Number.isSafeInteger(Number(query.userId)) || Number(query.userId) < 1) throw new AttendanceError(400, 'INVALID_EMPLOYEE_ID', 'userId must be a positive integer');
       await ensureEmployee(Number(query.userId));
       where.userId = Number(query.userId);
     }

@@ -14,8 +14,9 @@ class LeaveError extends Error {
 }
 
 function parseId(value) {
-  if (!/^\d+$/.test(String(value)) || Number(value) < 1) throw new LeaveError(400, 'INVALID_ID', 'Leave request ID must be a positive integer');
-  return Number(value);
+  const id = Number(value);
+  if (!/^\d+$/.test(String(value)) || !Number.isSafeInteger(id) || id < 1) throw new LeaveError(400, 'INVALID_ID', 'Leave request ID must be a positive integer');
+  return id;
 }
 
 function validDate(value) {
@@ -93,7 +94,7 @@ module.exports = {
     const where = {};
     if (status) where.status = status;
     if (query.userId !== undefined) {
-      if (!/^\d+$/.test(query.userId) || Number(query.userId) < 1) throw new LeaveError(400, 'INVALID_EMPLOYEE_ID', 'userId must be a positive integer');
+      if (!/^\d+$/.test(query.userId) || !Number.isSafeInteger(Number(query.userId)) || Number(query.userId) < 1) throw new LeaveError(400, 'INVALID_EMPLOYEE_ID', 'userId must be a positive integer');
       await ensureUser(Number(query.userId));
       where.userId = Number(query.userId);
     }
