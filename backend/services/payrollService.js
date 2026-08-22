@@ -30,7 +30,7 @@ function parseSalary(payload) {
 }
 
 function serialize(profile) {
-  return { userId: profile.userId, salary: profile.salary };
+  return { userId: profile.userId, name: profile.user?.name, email: profile.user?.email, role: profile.user?.role, salary: profile.salary };
 }
 
 async function findEmployee(userId) {

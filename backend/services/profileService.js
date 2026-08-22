@@ -44,7 +44,7 @@ async function findProfile(userId) {
 
 function validate(payload, role) {
   if (!payload || typeof payload !== 'object' || Array.isArray(payload)) throw new ProfileError(400, 'INVALID_INPUT', 'Request body must be an object');
-  const allowed = new Set(['firstName', 'lastName', ...Object.keys(profileFields), ...jobFields, ...(role === 'admin' ? ['email', 'role', 'salary'] : [])]);
+  const allowed = new Set(['firstName', 'lastName', 'phone', 'address', 'photoUrl', 'avatarUrl', ...(role === 'admin' ? [...jobFields, 'email', 'role', 'salary'] : [])]);
   const fields = {};
   Object.keys(payload).forEach((key) => { if (!allowed.has(key)) fields[key] = 'Field is not allowed'; });
   Object.keys(payload).forEach((key) => {

@@ -277,6 +277,7 @@
 .field-label input:hover, .field-label select:hover { border-color: #a5b4fc; }
 .field-label input:focus, .field-label select:focus { background: #fff; border-color: var(--teal); box-shadow: 0 0 0 4px #e0e7ff; }
 .error-message { border-radius: 8px; }
+.success-message { background: #ecfdf3; border: 1px solid #a7e3bd; border-radius: 8px; color: var(--success); font-size: 13px; margin-top: 20px; padding: 10px 12px; }
 .profile-note { background: #fffaf2; border-radius: 0 8px 8px 0; padding-bottom: 10px; padding-top: 10px; }
 .auth-page { background: radial-gradient(circle at 15% 15%, #e0e7ff 0, transparent 32%), var(--paper); }
 .auth-panel { animation: page-enter .45s ease both; }

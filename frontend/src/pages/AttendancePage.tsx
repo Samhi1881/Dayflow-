@@ -11,7 +11,7 @@ export function AttendancePage() {
   const [working, setWorking] = useState(false)
   const [error, setError] = useState('')
   async function load() { try { setError(''); setRecords(await getAttendance()) } catch (requestError) { setError(apiErrorMessage(requestError)) } finally { setLoading(false) } }
-  useEffect(() => { void load() }, [])
+  useEffect(() => { getAttendance().then(setRecords).catch((requestError) => setError(apiErrorMessage(requestError))).finally(() => setLoading(false)) }, [])
   const today = records.find((record) => record.date === new Date().toISOString().slice(0, 10))
   async function mark(action: typeof checkIn) { try { setWorking(true); setError(''); await action(); await load() } catch (requestError) { setError(apiErrorMessage(requestError)) } finally { setWorking(false) } }
   return <>

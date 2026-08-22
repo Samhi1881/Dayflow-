@@ -3,7 +3,7 @@ import { api } from './api'
 export type AttendanceRecord = { id: number; userId: number; date: string; checkInAt: string | null; checkOutAt: string | null; status: string }
 export type LeaveRequest = { id: number; userId: number; startDate: string; endDate: string; type: string; reason: string; status: string; adminComment: string | null; reviewedBy: number | null }
 export type Profile = { userId: number; firstName: string; lastName: string; email: string; role: string; phone: string | null; address: string | null; department: string | null; jobTitle: string | null; avatarUrl: string | null; dateJoined: string | null; salary?: string | number | null }
-export type Salary = { userId: number; salary: string | number | null }
+export type Salary = { userId: number; name?: string; email?: string; role?: string; salary: string | number | null }
 
 export function apiErrorMessage(error: unknown, fallback = 'Something went wrong. Please try again.') {
   if (!error || typeof error !== 'object' || !('response' in error)) return fallback
