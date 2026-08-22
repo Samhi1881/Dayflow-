@@ -2,7 +2,11 @@
 
 Version: `v1`
 
+Status: **Frozen**
+
 This document is the shared contract between the backend and frontend teams.
+Member A and Member B must follow these endpoint names and response fields. Changes
+require agreement from both teams before updating this document.
 
 ## Conventions
 
