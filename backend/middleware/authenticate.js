@@ -1,8 +1,16 @@
 const jwt = require('jsonwebtoken');
 
+function cookieToken(request) {
+  const cookieHeader = request.headers.cookie || '';
+  const cookieName = process.env.AUTH_COOKIE_NAME || 'dayflow_token';
+  const cookie = cookieHeader.split(';').map((value) => value.trim()).find((value) => value.startsWith(`${cookieName}=`));
+  return cookie ? decodeURIComponent(cookie.slice(cookieName.length + 1)) : null;
+}
+
 module.exports = (request, response, next) => {
-  const [scheme, token] = (request.headers.authorization || '').split(' ');
-  if (scheme !== 'Bearer' || !token) {
+  const [scheme, bearerToken] = (request.headers.authorization || '').split(' ');
+  const token = scheme === 'Bearer' && bearerToken ? bearerToken : cookieToken(request);
+  if (!token) {
     return response.status(401).json({ error: { code: 'UNAUTHORIZED', message: 'Authentication required', fields: {} } });
   }
   try {
