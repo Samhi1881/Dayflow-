@@ -6,7 +6,7 @@ module.exports = (sequelize) => sequelize.define('Attendance', {
   date: { type: DataTypes.DATEONLY, allowNull: false },
   checkIn: { type: DataTypes.DATE, field: 'check_in' },
   checkOut: { type: DataTypes.DATE, field: 'check_out' },
-  status: { type: DataTypes.ENUM('present', 'late', 'absent', 'half_day'), allowNull: false, defaultValue: 'present' },
+  status: { type: DataTypes.ENUM('present', 'absent', 'half_day', 'leave'), allowNull: false, defaultValue: 'present' },
 }, {
   tableName: 'attendance',
   underscored: true,
